@@ -1,0 +1,44 @@
+{% extends "base/index.html" %}
+{% block content %}
+<title>img</title>
+
+<style media="screen">
+  .btn {
+    margin: 10px;
+    transition: 0.1s;
+  }
+
+  .btn:hover {
+    transition: 0.1s;
+    background-color: #db7060;
+  }
+
+  .download_ {
+    padding: 1em;
+  }
+
+  .download-ic {
+    color: #51c288;
+    transition: .1s;
+  }
+
+  .download-ic:hover {
+    color: #198754;
+    transition: .1s;
+  }
+</style>
+
+<a href="../omrs">
+  <button class="delete is-large btn"></button>
+</a>
+
+<a download="omr.jpg" href={{ img }} style="float: right;" class="download_">
+  <i class="fa fa-download fa-2x download-ic"></i>
+</a>
+
+<center>
+
+  <img src={{ img }} alt="please upload valid image!" style="width:60%;">
+
+</center>
+{% endblock %}
