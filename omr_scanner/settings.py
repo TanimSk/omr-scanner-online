@@ -24,7 +24,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'u*$ham+9@-&eu$)n_%a59!burq=7sy&wr@59u!zz0)q#gmrpb$'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
 ALLOWED_HOSTS = ['omr-online.herokuapp.com', '127.0.0.1']
 
