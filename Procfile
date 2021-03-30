@@ -1,1 +1,1 @@
-web: gunicorn omr_scanner.wsgi
+web: python manage.py runserver
