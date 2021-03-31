@@ -27,3 +27,7 @@ def show(req):
         return render(req, 'show/index.html', {'img': "data:image/jpg;base64," + img})
     else:
         return HttpResponse('<center><h1>not found !</h1></center>')
+
+
+def about(req):
+    return render(req, 'about/index.html')
