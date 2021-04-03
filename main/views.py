@@ -14,8 +14,9 @@ def omrs(req):
     if req.method == 'POST' and req.FILES['upload_img']:
         global img1
         img1 = conimg.resize_img(req.FILES['upload_img'])
-
-    return render(req, 'omrs/index.html')
+        return render(req, 'omrs/index.html')
+    else:
+        return HttpResponse("<center><h1>Image is not uploaded! <a href='../templates/home/index.html'> click here </a> to go to the homepage</h1></center>")
 
 
 def show(req):
