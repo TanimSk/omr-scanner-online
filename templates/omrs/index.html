@@ -114,10 +114,12 @@
 
   /*drop zone*/
 </style>
+
 <div class="main_container">
-  <form method="post" action="show" enctype="multipart/form-data">
-    {% csrf_token %}
-    <center>
+  <center class="anime">
+    <form method="post" action="omrs" enctype="multipart/form-data">
+      {% csrf_token %}
+
       <br><br><br><br><br>
       <div class="container">
         <div class="drop-zone anime">
@@ -125,13 +127,22 @@
           <input type="file" class="drop-zone__input" name="upload_img" oninput="en_btn();" accept="image/*">
         </div><br>
       </div>
-    </center>
-    <center class="anime">
-      <button type="submit" class="button is-success is-outlined" style="width: auto; text-align: center; opacity: 50%;" id="add" disabled>Check</button>
-      <br><br><br>
-
-    </center>
-  </form>
+      <button type="submit" class="button is-success is-outlined" style="width: auto; text-align: center; opacity: 50%;" id="add" onclick="show_msg( 'please wait processing... <br> <progress class=\'progress is-small is-primary\' max=\'100\'>15%</progress>');"
+        disabled>
+        CHECK</button>
+    </form>
+    <br>
+    <div id="msg_box" hidden class="anime">
+      <article class="message is-warning" style="width: 50%;">
+        <div class="message-header">
+          <p>Alert</p>
+          <button class="delete" aria-label="delete" onclick="delete_msg();"></button>
+        </div>
+        <div class="message-body" id="msg_content">
+        </div>
+      </article>
+    </div>
+  </center>
 </div>
 
 
@@ -140,10 +151,16 @@
     document.getElementById("add").disabled = false;
     document.getElementById("add").style.opacity = 1;
   }
-</script>
 
+  function delete_msg() {
+    document.getElementById('msg_box').hidden = true;
+  }
 
-<script type="text/javascript">
+  function show_msg(string) {
+    document.getElementById('msg_box').hidden = false;
+    document.getElementById('msg_content').innerHTML = string;
+  }
+
   document.querySelectorAll(".drop-zone__input").forEach((inputElement) => {
     const dropZoneElement = inputElement.closest(".drop-zone");
 
@@ -180,22 +197,13 @@
     });
   });
 
-  /**
-   * Updates the thumbnail on a drop zone element.
-   *
-   * @param {HTMLElement} dropZoneElement
-   * @param {File} file
-   */
-
   function updateThumbnail(dropZoneElement, file) {
     let thumbnailElement = dropZoneElement.querySelector(".drop-zone__thumb");
 
-    // First time - remove the prompt
     if (dropZoneElement.querySelector(".drop-zone__prompt")) {
       dropZoneElement.querySelector(".drop-zone__prompt").remove();
     }
 
-    // First time - there is no thumbnail element, so lets create it
     if (!thumbnailElement) {
       thumbnailElement = document.createElement("div");
       thumbnailElement.classList.add("drop-zone__thumb");
@@ -203,7 +211,7 @@
     }
 
     thumbnailElement.dataset.label = file.name;
-    // Show thumbnail for image files
+
     if (file.type.startsWith("image/")) {
       const reader = new FileReader();
 
