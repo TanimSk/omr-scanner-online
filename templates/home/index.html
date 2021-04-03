@@ -115,7 +115,7 @@
   /*drop zone*/
 </style>
 
-<div class="main_container">
+<div class="main_container" style="height: 12vh;">
   <form method="post" action="omrs" enctype="multipart/form-data">
     {% csrf_token %}
     <center class="anime">
@@ -127,7 +127,7 @@
         </div><br>
       </div>
       <br>
-      <button class="button is-success is-outlined" style="width: auto; text-align: center; opacity: 50%;" id="add" ondblclick="show_msg('please wait <br> <progress class='progress is-small is-primary' max='100'>15%</progress>');" disabled>ADD
+      <button class="button is-success is-outlined" style="width: auto; text-align: center; opacity: 50%;" id="add" ondblclick="show_msg();" disabled>ADD
         ANSWER</button>
       <br>
       <div id="msg_box" hidden>
@@ -156,10 +156,9 @@
     document.getElementById('msg_box').hidden = true;
   }
 
-  function show_msg(string) {
+  function show_msg() {
     document.getElementById('msg_box').hidden = false;
-    document.getElementById('msg_content').innerHTML = string;
-    console.log('helloe');
+    document.getElementById('msg_content').innerHTML = 'please wait';
   }
 
   document.querySelectorAll(".drop-zone__input").forEach((inputElement) => {
