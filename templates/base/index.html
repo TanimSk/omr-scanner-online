@@ -9,8 +9,6 @@
   <script src="{% static 'assets/jquery.min.js' %}"></script>
   <link rel="stylesheet" type="text/css" href="{% static 'assets/bulma.min.css' %}">
   <link rel="stylesheet" type="text/css" href="{% static 'assets/index.min.css' %}">
-  <link rel="stylesheet" type="text/css" href="{% static 'assets/font-awesome.min.css' %}" >
-
 
   <style media="screen">
     body {
@@ -26,7 +24,7 @@
   <nav class="navbar" role="navigation" aria-label="main navigation">
     <div class="navbar-brand">
       <a class="navbar-item" href="http://omr-online.herokuapp.com/">
-        <img src="https://img.icons8.com/dusk/64/000000/search--v2.png"/>
+        <img src="{% static 'assets/icons/flogo.svg' %}"/>
       </a>
 
       <a role="button" class="navbar-burger" aria-label="menu" aria-expanded="true" data-target="navbarBasicExample">
@@ -47,8 +45,8 @@
         <a class="navbar-item" href="about">
           About
         </a>
-        <a class="navbar-item">
-          Make me happy 😊
+        <a class="navbar-item" href="make-me-happy">
+          Make me happy &nbsp; <img src="{% static 'assets/icons/smile.svg' %}" style="width: 1em;">
         </a>
       </div>
     </div>
