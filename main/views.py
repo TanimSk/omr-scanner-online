@@ -34,3 +34,7 @@ def show(req):
 
 def about(req):
     return render(req, 'about/index.html')
+
+
+def support(req):
+    return render(req, 'make-me-happy/index.html')
