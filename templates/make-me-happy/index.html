@@ -1,0 +1,175 @@
+{% extends "base/index.html" %}
+{% block content %}
+
+{% load static %}
+
+<title>Support</title>
+
+<script src="{% static 'assets/bKash-checkout-sandbox.js' %}"></script>
+
+<div class="content has-text-centered">
+  <br><br><br>
+  <img src="{% static 'assets/icons/smile.svg' %}" style="width: 8em;">
+  <h3>Please support me <br>
+    Your support will help me do innovative things
+  </h3><br>
+
+
+  {% csrf_token %}
+  <div class="field" style="width: 20em; margin: auto; padding: 10px;">
+    <div class="control has-icons-left has-icons-right">
+      <input class="input is-success" type="text" placeholder="Enter your name">
+      <span class="icon is-small is-left">
+        <img src="{% static 'assets/icons/user.svg' %}" style="width:1em;">
+      </span>
+    </div>
+    <br>
+    <div class="control has-icons-left has-icons-right">
+      <input class="input is-success" type="email" placeholder="Email input">
+      <span class="icon is-small is-left">
+        <img src="{% static 'assets/icons/envelope.svg' %}" style="width:1em;">
+      </span>
+    </div>
+    <br>
+    <div class="control has-icons-left">
+      <input class="input is-success" type="number" placeholder="Enter the Amount" style="width: 14em; float: left;" id="amount">
+      <span class="icon is-small is-left">
+        <img src="{% static 'assets/icons/donate.svg' %}" style="width:1em;">
+      </span>
+    </div>
+
+
+    <button class="button is-primary is-outlined" onclick="check();" id="pay_button" disabled style="width:4em; float: right;">Pay</button>
+
+  </div>
+
+  <br><br>
+
+  <div id="msg_box" hidden>
+    <br><br>
+    <article class="message is-warning" style="width: 50%; margin: auto;">
+      <div class="message-header">
+        <p>Alert</p>
+        <button class="delete" aria-label="delete" onclick="delete_msg();"></button>
+      </div>
+      <div class="message-body" id="msg_content">
+      </div>
+    </article>
+  </div>
+
+  <div style="height: 5em;">
+
+  </div>
+
+  <button type="button" name="button" id="bKash_button" hidden></button>
+</div>
+
+
+
+
+<script type="text/javascript">
+  let My_amount = '0';
+
+  let paymentID;
+
+  let createCheckoutUrl = 'https://merchantserver.sandbox.bka.sh/api/checkout/v1.2.0-beta/payment/create';
+  let executeCheckoutUrl = 'https://merchantserver.sandbox.bka.sh/api/checkout/v1.2.0-beta/payment/execute';
+
+  function check() {
+    var m = document.getElementById('amount').value;
+    if (m < 50) {
+      show_msg("Minimum payment is 50tk <br> Thank you for your support");
+    } else {
+      My_amount = String(m);
+      show_msg("please wait <br> <progress class='progress is-small is-primary' max='100'>15%</progress>");
+      bKash.reconfigure({
+        paymentRequest: {
+          amount: My_amount,
+          intent: 'sale',
+        }
+      });
+      $('#bKash_button').click();
+    }
+  }
+
+
+  function delete_msg() {
+    $('#msg_box').hide();
+  }
+
+  function show_msg(string) {
+    $("#msg_box").fadeIn();
+    document.getElementById('msg_content').innerHTML = string;
+  }
+
+  $(document).ready(function() {
+    initBkash();
+    document.getElementById('pay_button').disabled = false;
+  });
+
+  function initBkash() {
+    bKash.init({
+      paymentMode: 'checkout', // Performs a single checkout.
+      paymentRequest: {
+        "amount": My_amount,
+        "intent": 'sale'
+      },
+
+      createRequest: function(request) {
+        $.ajax({
+          url: createCheckoutUrl,
+          type: 'POST',
+          contentType: 'application/json',
+          data: JSON.stringify(request),
+          success: function(data) {
+
+            if (data && data.paymentID != null) {
+              paymentID = data.paymentID;
+              bKash.create().onSuccess(data);
+            } else {
+              bKash.create().onError(); // Run clean up code
+              show_msg(data.errorMessage + " Tag should be 2 digit, Length should be 2 digit, Value should be number of character mention in Length, ex. MI041234 , supported tags are MI, MW, RF");
+            }
+
+          },
+          error: function() {
+            bKash.create().onError(); // Run clean up code
+            alert(data.errorMessage);
+          }
+        });
+      },
+      executeRequestOnAuthorization: function() {
+        $.ajax({
+          url: executeCheckoutUrl,
+          type: 'POST',
+          contentType: 'application/json',
+          data: JSON.stringify({
+            "paymentID": paymentID
+          }),
+          success: function(data) {
+
+            if (data && data.paymentID != null) {
+              // On success, perform your desired action
+              alert('[SUCCESS] data : ' + JSON.stringify(data));
+              window.location.href = "/success_page.html";
+
+            } else {
+              alert('[ERROR] data : ' + JSON.stringify(data));
+              bKash.execute().onError(); //run clean up code
+            }
+
+          },
+          error: function() {
+            alert('An alert has occurred during execute');
+            bKash.execute().onError(); // Run clean up code
+          }
+        });
+      },
+      onClose: function() {
+        delete_msg();
+      }
+    });
+  }
+</script>
+
+{% endblock %}
