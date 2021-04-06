@@ -1,5 +1,6 @@
 {% extends "base/index.html" %}
 {% block content %}
+{% load static %}
 <title>img</title>
 
 <style media="screen">
@@ -33,7 +34,7 @@
 </a>
 
 <a download="omr.jpg" href={{ img }} style="float: right;" class="download_">
-  <i class="fa fa-download fa-2x download-ic"></i>
+  <img src="{% static 'assets/icons/download.svg' %}" style="width:1.2em;">
 </a>
 
 <center>
