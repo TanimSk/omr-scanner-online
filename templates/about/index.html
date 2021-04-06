@@ -1,5 +1,6 @@
 {% extends "base/index.html" %}
 {% block content %}
+{% load static %}
 <title>About</title>
 
 <div class="content" style="height: 80vh;">
@@ -7,7 +8,7 @@
   <center>
     <br><br><br>
     <figure class="image is-128x128">
-      <img class="is-rounded" src="https://avatars.githubusercontent.com/u/67966003?s=400&u=ae34ae3814ec9545ba9f3761efd2c8b76e1df09f&v=4">
+      <img class="is-rounded" src="{% static 'assets/TanimSk.jpg' %}">
     </figure>
 <h1>
   Tanim Sk
