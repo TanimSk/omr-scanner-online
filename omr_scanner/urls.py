@@ -21,5 +21,6 @@ urlpatterns = [
     path('show', include('main.urls')),
     path('omrs', include('main.urls')),
     path('about', include('main.urls')),
-    path('admin/', admin.site.urls)
+    path('make-me-happy', include('main.urls')),
+    path('admin/', admin.site.urls),
 ]
