@@ -80,8 +80,12 @@ WSGI_APPLICATION = 'omr_scanner.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'd7dit2q5rdboqi',
+        'USER': 'xauypfstisekvu',
+        'PASSWORD': '8ec2b87a8d78208b7762a1e6ab5aa7994a8e1f214fb43295cba41fa956efe0a6',
+        'HOST': 'ec2-34-225-103-117.compute-1.amazonaws.com',
+        'PORT': '5432',
     }
 }
 
