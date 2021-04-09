@@ -14,9 +14,9 @@ def home(req):
 
 
 def omrs(req):
-    if req.method == 'POST' and req.FILES['upload_img']:
+    if req.method == 'POST' and req.FILES['upload_img2']:
         global img1, img2
-        img2 = conimg.resize_img(req.FILES['upload_img'])
+        img2 = conimg.resize_img(req.FILES['upload_img2'])
         img2 = eval.eval(img1, img2)
 
     return render(req, 'omrs/index.html')
