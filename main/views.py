@@ -23,6 +23,7 @@ def omrs(req):
 
 
 def show(req):
+    global img2
     return render(req, 'show/index.html', {'img': "data:image/jpg;base64," + img2})
 
 
