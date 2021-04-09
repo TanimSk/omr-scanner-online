@@ -16,31 +16,31 @@
   </h3><br>
 
   <div class="field" style="width: 20em; margin: auto; padding: 10px;">
+    {% csrf_token %}
     <div class="control has-icons-left has-icons-right">
-      <input class="input is-success" type="text" placeholder="Enter your name">
+      <input class="input is-success" type="text" placeholder="Enter your name" id="name_" required>
       <span class="icon is-small is-left">
         <img src="{% static 'assets/icons/user.svg' %}" style="width:1em;">
       </span>
     </div>
     <br>
     <div class="control has-icons-left has-icons-right">
-      <input class="input is-success" type="email" placeholder="Email input">
+      <input class="input is-success" type="email" placeholder="Email input" id="email_" required>
       <span class="icon is-small is-left">
         <img src="{% static 'assets/icons/envelope.svg' %}" style="width:1em;">
       </span>
     </div>
     <br>
     <div class="control has-icons-left">
-      <input class="input is-success" type="number" placeholder="Enter the Amount" style="width: 14em; float: left;" id="amount">
+      <input class="input is-success" type="number" placeholder="Enter the Amount" style="width: 14em; float: left;" id="amount" required>
       <span class="icon is-small is-left">
         <img src="{% static 'assets/icons/donate.svg' %}" style="width:1em;">
       </span>
     </div>
-
-
     <button class="button is-primary is-outlined" onclick="check();" id="pay_button" disabled style="width:4em; float: right;">Pay</button>
-
   </div>
+
+
 
   <br><br>
 
@@ -55,15 +55,10 @@
       </div>
     </article>
   </div>
-
   <div style="height: 5em;">
-
   </div>
-
   <button type="button" name="button" id="bKash_button" hidden></button>
 </div>
-
-
 
 
 <script type="text/javascript">
@@ -74,11 +69,44 @@
   let createCheckoutUrl = 'https://merchantserver.sandbox.bka.sh/api/checkout/v1.2.0-beta/payment/create';
   let executeCheckoutUrl = 'https://merchantserver.sandbox.bka.sh/api/checkout/v1.2.0-beta/payment/execute';
 
+  function validateEmail(email) {
+    let res = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+    return res.test(email);
+  }
+
+  function validateName(name) {
+    var cnt = 0;
+    while (true) {
+      if (name[cnt].charCodeAt(0) > 47 && name[cnt].charCodeAt(0) < 58) {
+        return false;
+      }
+      cnt++;
+      if (cnt == name.length) {
+        break;
+      }
+    }
+    return true;
+  }
+
   function check() {
     var m = document.getElementById('amount').value;
     if (m < 50) {
       show_msg("Minimum payment is 50tk <br> Thank you for your support");
+    } else if (!validateName(document.getElementById('name_').value)) {
+      show_msg("Please enter a valid name!");
+    } else if (document.getElementById('name_').value == "") {
+      show_msg("Please enter your name");
+    } else if (!validateEmail(document.getElementById('email_').value)) {
+      show_msg("Please enter your email correctly!");
     } else {
+      // $.post("make-me-happy", {
+      //     name: document.getElementById('name_').value,
+      //     email: document.getElementById('email_').value,
+      //     amount: document.getElementById('amount').value,
+      //     csrfmiddlewaretoken: document.getElementsByName('csrfmiddlewaretoken')[0].value
+      //   },
+      //   show_msg("Success!<br>Thank you very much for your support, you will receive an email soon")
+      // );
       My_amount = String(m);
       show_msg("please wait <br> <progress class='progress is-small is-primary' max='100'>15%</progress>");
       bKash.reconfigure({
@@ -146,11 +174,20 @@
             "paymentID": paymentID
           }),
           success: function(data) {
-
             if (data && data.paymentID != null) {
               // On success, perform your desired action
-              alert('[SUCCESS] data : ' + JSON.stringify(data));
+              console.log('[SUCCESS] data : ' + JSON.stringify(data));
               window.location.href = "/success_page.html";
+              $.post("make-me-happy", {
+                  name: document.getElementById('name_').value,
+                  email: document.getElementById('email_').value,
+                  amount: document.getElementById('amount').value,
+                  csrfmiddlewaretoken: document.getElementsByName('csrfmiddlewaretoken')[0].value
+                },
+                function(){
+                  show_msg("Success!<br>Thank you very much for your support, you will receive an email soon");
+                }
+              );
 
             } else {
               alert('[ERROR] data : ' + JSON.stringify(data));
