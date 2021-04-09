@@ -117,20 +117,19 @@
 
 <div class="main_container">
   <center class="anime">
-    <form method="post" action="omrs" enctype="multipart/form-data">
-      {% csrf_token %}
+    <br><br><br><br><br>
+    <div class="container">
 
-      <br><br><br><br><br>
-      <div class="container">
-        <div class="drop-zone anime">
-          <span class="drop-zone__prompt">Drop file here or click to upload</span>
-          <input type="file" class="drop-zone__input" name="upload_img" oninput="en_btn();" accept="image/*">
-        </div><br>
-      </div>
-      <button type="submit" class="button is-success is-outlined" style="width: auto; text-align: center; opacity: 50%;" id="add" onclick="show_msg( 'please wait <br> <progress class=\'progress is-small is-primary\' max=\'100\'>15%</progress>');"
-        disabled>ADD
+      {% csrf_token %}
+      <div class="drop-zone anime">
+        <span class="drop-zone__prompt">Drop file here or click to upload</span>
+        <input type="file" class="drop-zone__input" name="upload_img" oninput="en_btn();" accept="image/*">
+      </div><br>
+
+      <button class="button is-success is-outlined" style="width: auto; text-align: center;" id="add" onclick="show_msg( 'please wait <br> <progress class=\'progress is-small is-primary\' max=\'100\'>15%</progress>');post_form();">
+        ADD
         ANSWER</button>
-    </form>
+    </div>
     <br>
     <div id="msg_box" hidden class="anime">
       <article class="message is-warning" style="width: 50%;">
@@ -161,6 +160,36 @@
     document.getElementById('msg_box').hidden = false;
     document.getElementById('msg_content').innerHTML = string;
   }
+
+  function dis_btn() {
+    document.getElementById("add").disabled = true;
+    document.getElementById("add").style.opacity = .5;
+  }
+
+  dis_btn();
+
+  function post_form() {
+    dis_btn();
+    var filedata = new FormData();
+    filedata.append('upload_img', document.getElementsByName('upload_img')[0].files[0]);
+    filedata.append('csrfmiddlewaretoken', document.getElementsByName('csrfmiddlewaretoken')[0].value);
+    console.log(filedata);
+    $.ajax({
+      url: "",
+      type: 'POST',
+      data: filedata,
+      processData: false,
+      contentType: false,
+      success: function(data) {
+        window.location.href = "omrs";
+      },
+      error: function() {
+        show_msg("Image is not uploaded, please try again")
+      }
+    });
+  }
+
+
 
   document.querySelectorAll(".drop-zone__input").forEach((inputElement) => {
     const dropZoneElement = inputElement.closest(".drop-zone");

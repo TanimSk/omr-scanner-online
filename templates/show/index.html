@@ -2,7 +2,6 @@
 {% block content %}
 {% load static %}
 <title>img</title>
-
 <style media="screen">
   .btn {
     margin: 10px;
@@ -14,32 +13,33 @@
     background-color: #db7060;
   }
 
-  .download_ {
-    padding: 1em;
-  }
-
-  .download-ic {
-    color: #51c288;
-    transition: .1s;
-  }
-
-  .download-ic:hover {
-    color: #198754;
-    transition: .1s;
+  #dlink {
+    padding-right: .5em;
   }
 </style>
+<div>
+  <a href="../omrs">
+    <button class="delete is-large btn" style="float: left;"></button>
+  </a>
+  <a download="omr.jpg" style="float: right;" id="dlink">
+    <img src="{% static 'assets/icons/download.svg' %}" style="width:2.2em;">
+  </a>
+</div>
+<br>
+<div class="contain has-text-centered">
+  <center>
+    <h1 style="color: #00ac13; font-size: 1.5em;">
+      correct answers:
+    </h1>
+    <br>
+    <img alt="something went wrong!" style="width:60%;" id="omr-image">
+  </center>
+</div>
 
-<a href="../omrs">
-  <button class="delete is-large btn"></button>
-</a>
+<script type="text/javascript">
+  s = "{{ img }}";
+  document.getElementById('omr-image').src = s;
+  document.getElementById('dlink').href = s;
+</script>
 
-<a download="omr.jpg" href={{ img }} style="float: right;" class="download_">
-  <img src="{% static 'assets/icons/download.svg' %}" style="width:1.2em;">
-</a>
-
-<center>
-
-  <img src={{ img }} alt="please upload valid image!" style="width:60%;">
-
-</center>
 {% endblock %}
