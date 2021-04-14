@@ -23,6 +23,8 @@ def eval(loc1, loc2):
             , 10, 10), cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_NONE)[0]
         , -1, (0, 0, 255), 3)
 
+    img = cv2.resize(img, (500, int(img.shape[0] * 500 / img.shape[1])))
+
     img = base64.b64encode(cv2.imencode('.jpg', img)[1]).decode('UTF-8')
 
     return str(img)

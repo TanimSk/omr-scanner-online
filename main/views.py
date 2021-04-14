@@ -1,3 +1,4 @@
+import requests
 from django.shortcuts import render
 
 from . import conimg, eval, models
@@ -24,7 +25,15 @@ def omrs(req):
 
 def show(req):
     global img2
-    return render(req, 'show/index.html', {'img': "data:image/jpg;base64," + img2})
+    url = "https://api.imgbb.com/1/upload"
+    payload = {
+        "key": "ed67a942812ea90bf6e8f65a6c43c091",
+        "image": img2,
+        "expiration": '86400',
+    }
+    img2 = requests.post(url, payload).json()['data']['url']
+
+    return render(req, 'show/index.html', {'img': img2})
 
 
 def about(req):
