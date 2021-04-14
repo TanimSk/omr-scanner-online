@@ -21,7 +21,7 @@
   <a href="../omrs">
     <button class="delete is-large btn" style="float: left;"></button>
   </a>
-  <a download="omr.jpg" style="float: right;" id="dlink">
+  <a download="omr.jpg" style="float: right;" id="dlink" src="{{ img }}">
     <img src="{% static 'assets/icons/download.svg' %}" style="width:2.2em;">
   </a>
 </div>
@@ -32,14 +32,9 @@
       correct answers:
     </h1>
     <br>
-    <img alt="something went wrong!" style="width:60%;" id="omr-image">
+    <img alt="please wait..." style="width:60%;" src="{{ img }}">
   </center>
 </div>
 
-<script type="text/javascript">
-  s = "{{ img }}";
-  document.getElementById('omr-image').src = s;
-  document.getElementById('dlink').href = s;
-</script>
 
 {% endblock %}
