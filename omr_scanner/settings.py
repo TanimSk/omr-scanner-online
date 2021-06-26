@@ -22,7 +22,7 @@ SETTINGS_PATH = os.path.dirname(os.path.dirname(__file__)) # new
 # See https://docs.djangoproject.com/en/3.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'u*$ham+9@-&eu$)n_%a59!burq=7sy&wr@59u!zz0)q#gmrpb$'
+SECRET_KEY = ''
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -81,10 +81,10 @@ WSGI_APPLICATION = 'omr_scanner.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'd7dit2q5rdboqi',
-        'USER': 'xauypfstisekvu',
-        'PASSWORD': '8ec2b87a8d78208b7762a1e6ab5aa7994a8e1f214fb43295cba41fa956efe0a6',
-        'HOST': 'ec2-34-225-103-117.compute-1.amazonaws.com',
+        'NAME': '~~',
+        'USER': '~~',
+        'PASSWORD': '~~',
+        'HOST': '~~.compute-1.amazonaws.com',
         'PORT': '5432',
     }
 }
